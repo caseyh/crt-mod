@@ -96,6 +96,8 @@ for option in dir(p):
 	if (option.startswith("CRT_")) and (value != None):
 		CRT_options.append("-%s %s" % (option[4:], value))
 
+input_file = open(input_fn, "r")
+
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 try:
@@ -104,9 +106,10 @@ try:
 except ImportError:
 	error("The Biopython library is required.")
 
-def read (fn, format):
+def read (file_handle, format):
 	try:
-		parser = SeqIO.parse(fn, format)
+		#parser = SeqIO.parse(fn, format)
+		parser = SeqIO.parse(file_handle)
 		yield parser.next()
 
 	except ValueError:
@@ -116,7 +119,7 @@ def read (fn, format):
 		yield entry
 
 # for each sequence in the input file,
-for record in read(input_fn, input_format.lower()):
+for record in read(input_file, input_format.lower()):
 	print record.id
 
 	# create a temporary file and write
