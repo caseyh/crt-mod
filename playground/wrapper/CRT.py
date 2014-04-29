@@ -109,7 +109,7 @@ except ImportError:
 def read (file_handle, format):
 	try:
 		#parser = SeqIO.parse(fn, format)
-		parser = SeqIO.parse(file_handle)
+		parser = SeqIO.parse(file_handle, format)
 		yield parser.next()
 
 	except ValueError:
