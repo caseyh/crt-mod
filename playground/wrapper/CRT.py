@@ -57,7 +57,7 @@ g = optparse.OptionGroup(p, "Options (Java)")
 g.add_option("--java-executable", dest = "java_executable", metavar = "FILENAME", default = "java",
 	help = "Java runtime executable (optional; default: '%default')")
 
-g.add_option("--crt-jar", dest = "java_CRT_jar", metavar = "FILENAME", default = "CRT1.2-CLI.jar",
+g.add_option("--crt-jar", dest = "java_CRT_jar", metavar = "FILENAME", default = "crt-cli-48.jar",
 	help = "CRT jar filename (optional; default: '%default')")
 
 p.add_option_group(g)
