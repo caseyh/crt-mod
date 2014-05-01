@@ -28,7 +28,7 @@ g.add_option("--ignore-empty", dest = "ignore_empty", action = "store_true", def
 	help = """If set, the output file will not contain reports for sequences
 in which no CRISPR was found.""")
 
-g.add_option("-f", "--outputFasta", dest = "CRT_-outputFasta", action = "store_true", default = False,
+g.add_option("-f", "--outputFasta", dest = "CRT_outputFasta", action = "store_true", default = False,
 	help = """If set, the output file will be in FASTA format.""")
 
 p.add_option_group(g)
@@ -36,22 +36,22 @@ p.add_option_group(g)
 g = optparse.OptionGroup(p, "Options (CRT)")
 
 g.add_option("--min-nr", dest = "CRT_minNR", type = "int", metavar = "INTEGER", default = 3,
-	help = "Minimum number of repeats a CRISPR must contain (optional; default: %default)")
+	help = "Min # of repeats a CRISPR must contain (opt; def: %default)")
 
 g.add_option("--min-rl", dest = "CRT_minRL", type = "int", metavar = "INTEGER", default = 19,
-	help = "Minimum length of a CRISPR's repeated region (optional; default: %default)")
+	help = "Min len of a CRISPR's repeated region (opt; def: %default)")
 
 g.add_option("--max-rl", dest = "CRT_maxRL", type = "int", metavar = "INTEGER", default = 38,
-	help = "Maximum length of a CRISPR's repeated region (optional; default: %default)")
+	help = "Max len of a CRISPR's repeated region (opt; def: %default)")
 
 g.add_option("--min-sl", dest = "CRT_minSL", type = "int", metavar = "INTEGER", default = 19,
-	help = "Minimum length of a CRISPR's non-repeated (or spacer) region (optional; default: %default)")
+	help = "Min len of a CRISPR's non-repeated (or spacer) region (opt; def: %default)")
 
 g.add_option("--max-sl", dest = "CRT_maxSL", type = "int", metavar = "INTEGER", default = 48,
-	help = "Maximum length of a CRISPR's non-repeated (or spacer) region (optional; default: %default)")
+	help = "Max len of a CRISPR's non-repeated (or spacer) region (opt; def: %default)")
 
 g.add_option("--search-wl", dest = "CRT_searchWL", type = "int", metavar = "INTEGER",
-	help = "Length of search window used to discover CRISPRs (optional; range 6-9)")
+	help = "Len of search window used to discover CRISPRs (opt; range 6-9)")
 
 p.add_option_group(g)
 
