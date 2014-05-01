@@ -18,10 +18,11 @@ public class CRISPRFinder
    	int sequenceLength = 0;
 
 
-	public CRISPRFinder(String _inputFileName, String _outputFileName, int _screenDisplay, int _minNumRepeats, int _minRepeatLength, int _maxRepeatLength, int _minSpacerLength, int _maxSpacerLength, int _searchWindowLength)
+	public CRISPRFinder(String _inputFileName, String _outputFileName, boolean _outputFasta, int _screenDisplay, int _minNumRepeats, int _minRepeatLength, int _maxRepeatLength, int _minSpacerLength, int _maxSpacerLength, int _searchWindowLength)
 	{
 		inputFileName = _inputFileName;
 		outputFileName = _outputFileName;
+		outputFasta = _outputFasta;
 
 		screenDisplay = _screenDisplay;
 		minNumRepeats = _minNumRepeats;
@@ -171,9 +172,14 @@ public class CRISPRFinder
 					out = new PrintStream(outputFile);
 			}
 
-			out.print("ORGANISM:  ");
-			out.print(sequence.getName() + "\n");
-			out.print("Bases: " + sequence.length() + "\n\n\n");
+			// BEGIN PRINTING CRISPER INFORMATION TO FILE OR SCREEN DEPENDING ON OPTIONS
+
+			if (!outputFasta) {
+				out.print("ORGANISM:  ");
+				out.print(sequence.getName() + "\n");
+				out.print("Bases: " + sequence.length() + "\n\n\n");
+			}
+			
 
 			if (repeatsFound)
 			{
@@ -183,22 +189,39 @@ public class CRISPRFinder
 				String repeat, spacer, prevSpacer;
 				repeat = spacer = prevSpacer = "";
 
+				if (outputFasta) {
+					out.print(">");
+					out.print(sequence.getName() + "\n");
+				}
+
 				//add 1 to each position, to offset programming languagues that begin at 0 rather than 1
 				for (int k = 0; k < CRISPRVector.size(); k++)
 				{	currCRISPR = (CRISPR)CRISPRVector.elementAt(k);
-					out.print("CRISPR " + (k + 1) + "   Range: " + (currCRISPR.start() + 1) + " - " +  (currCRISPR.end() + 1) + "\n");
-					out.print(currCRISPR.toString());
-					out.print("Repeats: " + currCRISPR.numRepeats() + "\t" +  "Average Length: " + currCRISPR.averageRepeatLength() + "\t\t");
-					out.print("Average Length: " +  currCRISPR.averageSpacerLength() + "\n\n");
+					if(!outputFasta) {
+						out.print("CRISPR " + (k + 1) + "   Range: " + (currCRISPR.start() + 1) + " - " +  (currCRISPR.end() + 1) + "\n");
+						out.print(currCRISPR.toString());
+						out.print("Repeats: " + currCRISPR.numRepeats() + "\t" +  "Average Length: " + currCRISPR.averageRepeatLength() + "\t\t");
+						out.print("Average Length: " +  currCRISPR.averageSpacerLength() + "\n\n");
 
-					out.print("\n\n");
+						out.print("\n\n");
+					}
+					else {
+						out.print(currCRISPR.toStringFasta());
+					}
+					
 				}
-				out.print("Time to find repeats: " + (repeatSearchEnd - repeatSearchStart) + " ms\n\n");
+
+				if(!outputFasta) {
+					out.print("Time to find repeats: " + (repeatSearchEnd - repeatSearchStart) + " ms\n\n");
+				}
 			}
 
-			out.print("\n");
-			out.print("\n");
-			if (!repeatsFound)
+			if (!outputFasta) {
+				out.print("\n");
+				out.print("\n");
+			}
+
+			if (!repeatsFound && !outputFasta)
 				out.print("No CRISPR elements were found.");
 
 			out.close();

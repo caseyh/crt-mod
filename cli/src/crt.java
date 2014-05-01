@@ -111,6 +111,18 @@ public class crt
 					if ( screenDisplay != 1 )
 						screenDisplay = 0;
 				}
+				else if (args[i].endsWith("outputFasta"))
+				{	i++;
+					if (i >= args.length)
+					{	System.out.println("Missing option value for " + args[i - 1] + ".");
+						System.out.println("Try 'crt --help' for more information.");
+						System.exit(1);
+					}					
+					outputFasta = Integer.parseInt(args[i]);
+					numOptions++;
+					if ( outputFasta != 1 )
+						outputFasta = 0;
+				}
 				else
 				{	System.out.println("Invalid option:  " + args[i]);
 					System.out.println("Try 'crt --help' for more information.");
@@ -180,7 +192,7 @@ public class crt
 		}
 
 
-		CRISPRFinder client = new CRISPRFinder(inputFileName, outputFileName, screenDisplay, minNumRepeats, minRepeatLength, maxRepeatLength, minSpacerLength, maxSpacerLength, searchWindowLength);
+		CRISPRFinder client = new CRISPRFinder(inputFileName, outputFileName, outputFasta, screenDisplay, minNumRepeats, minRepeatLength, maxRepeatLength, minSpacerLength, maxSpacerLength, searchWindowLength);
 		client.goCRISPRFinder();
 
 	}

@@ -169,6 +169,51 @@ public class CRISPR
 		return str;
 	}
 
+	public String toStringFasta()
+	{
+		String str = "";
+
+		String repeat, spacer, prevSpacer;
+		repeat = spacer = prevSpacer = "";
+
+
+		//add 1 to each position, to offset programming languagues that begin at 0 rather than 1
+		for (int m = 0; m < numRepeats(); m++)
+		{   //repeat = getRepeat(m);
+			//str += (repeatAt(m) + 1) + "\t\t" + repeatStringAt(m) + "\t";
+
+			// print spacer
+			// because there are no spacers after the last repeat, we stop early (m < crisprIndexVector.size() - 1)
+			if (m < numSpacers())
+			{   prevSpacer = spacer;
+				spacer = spacerStringAt(m);
+				str += spacer;
+
+				//str +="\t[ " + repeatStringAt(m).length() + ", " + spacerStringAt(m).length() + " ]";
+				//str +="--[" + DNASequence.getSimilarity(repeatStringAt(m), spacerStringAt(m)) + "]";
+				//str +="--[" + DNASequence.getSimilarity(spacer, prevSpacer) + "]";
+				//str += "\n";
+
+			}
+		}
+
+		int counter = 0;
+		String retStr = "";
+		for(int i = 0; i < str.length(); i++) {
+			char c = str.charAt(i);
+			if (counter < 80) {
+				retStr += c;
+			}
+			else {
+				retStr += c + "\n";
+				counter = 0;
+			}
+		}
+
+		return retStr + "\n";
+	}
+
+
 }
 
 

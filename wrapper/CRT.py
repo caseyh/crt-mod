@@ -57,13 +57,20 @@ g = optparse.OptionGroup(p, "Options (Java)")
 g.add_option("--java-executable", dest = "java_executable", metavar = "FILENAME", default = "java",
 	help = "Java runtime executable (optional; default: '%default')")
 
-g.add_option("--crt-jar", dest = "java_CRT_jar", metavar = "FILENAME", default = "/home/cahancock/finalproj/crt-mod/playground/wrapper/crt-cli-48.jar",
+g.add_option("--crt-jar", dest = "java_CRT_jar", metavar = "FILENAME", default = os.path.join(os.path.dirname(__file__), "crt-cli-48.jar"),
 	help = "CRT jar filename (optional; default: '%default')")
 
 p.add_option_group(g)
 
+g = optparse.OptionGroup(p, "Display Options")
+
 p.add_option("-v", "--version", dest = "display_version", action = "store_true", default = False,
 	help = "Display the program version and exit")
+
+g.add_option("-p", "--verbose", dest = "verbose", action="store_true", default = False,
+	help = "Print each record id.")
+
+p.add_option_group(g)
 
 (p, a) = p.parse_args()
 
@@ -120,7 +127,8 @@ def read (file_handle, format):
 
 # for each sequence in the input file,
 for record in read(input_file, input_format.lower()):
-	#print record.id
+	if(p.verbose):
+		print record.id
 
 
 	# create a temporary file and write
