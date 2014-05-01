@@ -197,21 +197,7 @@ public class CRISPR
 			}
 		}
 
-		int counter = 0;
-		String retStr = "";
-		for(int i = 0; i < str.length(); i++) {
-			char c = str.charAt(i);
-			if (counter < 80) {
-				retStr += c;
-			}
-			else {
-				retStr += c;
-				retStr += "\n";
-				counter = 0;
-			}
-		}
-
-		return retStr + "\n";
+		return str;
 	}
 
 
