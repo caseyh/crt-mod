@@ -205,7 +205,8 @@ public class CRISPR
 				retStr += c;
 			}
 			else {
-				retStr += c + "\n";
+				retStr += c;
+				retStr += "\n";
 				counter = 0;
 			}
 		}

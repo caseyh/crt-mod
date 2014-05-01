@@ -207,6 +207,9 @@ public class CRISPRFinder
 						out.print("\n\n");
 					}
 					else {
+						out.print(">");
+						out.print(sequence.getName() + ";");
+						out.print("CRISPR " + (k + 1) + " found from [" + (currCRISPR.start() + 1) + " - " +  (currCRISPR.end() + 1) + "]\n");
 						out.print(currCRISPR.toStringFasta());
 					}
 					
