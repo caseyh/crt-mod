@@ -203,14 +203,15 @@ public class CRISPR
 			char c = str.charAt(i);
 			if (counter < 80) {
 				printStr += c;
+				counter++;
 			}
 			else {
-				printStr += c + "%n";
+				printStr += c + "\n";
 				counter = 0;
 			}
 		}
 
-		return printStr;
+		return printStr + "\n";
 	}
 
 
