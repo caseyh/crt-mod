@@ -205,23 +205,7 @@ public class CRISPRFinder
 						out.print(">");
 						out.print(sequence.getName() + "; ");
 						out.print("CRISPR " + (k + 1) + " found from [" + (currCRISPR.start() + 1) + " - " +  (currCRISPR.end() + 1) + "]\n");
-
-						// Cut the strand at 80 chars to ensure FASTA compliance.
-						String str = currCRISPR.toStringFasta();
-						int counter = 0;
-						String printStr = "";
-						for(int i = 0; i < str.length(); i++) {
-							char c = str.charAt(i);
-							if (counter < 80) {
-								printStr += c;
-							}
-							else {
-								printStr += c;
-								printStr += "\n";
-								counter = 0;
-							}
-						}
-						out.print(printStr + "\n");
+						out.print(currCRISPR.toStringFasta());
 					}
 					
 				}
