@@ -104,7 +104,10 @@ CRT_options = []
 for option in dir(p):
 	value = getattr(p, option)
 	if (option.startswith("CRT_")) and (value != None):
-		CRT_options.append("-%s %s" % (option[4:], value))
+		if (value == True):
+			CRT_options.append("-%s" % (option[4:]))
+		else:
+			CRT_options.append("-%s %s" % (option[4:], value))
 
 input_file = open(input_fn, "r")
 
