@@ -28,7 +28,7 @@ g.add_option("--ignore-empty", dest = "ignore_empty", action = "store_true", def
 	help = """If set, the output file will not contain reports for sequences
 in which no CRISPR was found.""")
 
-g.add_option("-f", "--outputFasta", dest = "CRT_outputFasta", action = "store_true", default = False,
+g.add_option("-f", "--outputFasta", dest = "CRT_outputFasta", action = "store_const", const = 1, default = 0,
 	help = """If set, the output file will be in FASTA format.""")
 
 p.add_option_group(g)
@@ -104,12 +104,7 @@ CRT_options = []
 for option in dir(p):
 	value = getattr(p, option)
 	if (option.startswith("CRT_")) and (value != None):
-		if (value == True):
-			CRT_options.append("-%s" % (option[4:]))
-		elif (value == False):
-			pass
-		else:
-			CRT_options.append("-%s %s" % (option[4:], value))
+		CRT_options.append("-%s %s" % (option[4:], value))
 
 input_file = open(input_fn, "r")
 
