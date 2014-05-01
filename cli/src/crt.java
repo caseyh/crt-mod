@@ -6,6 +6,7 @@ public class crt
 	{
 		//default values
 		int screenDisplay = 0;
+		int outputFasta = 0;
 		int minNumRepeats = 3;
       	int minRepeatLength = 19;
       	int maxRepeatLength = 38;

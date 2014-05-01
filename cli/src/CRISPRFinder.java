@@ -7,6 +7,7 @@ public class CRISPRFinder
 	private String outputFileName;
 
  	private int screenDisplay;
+ 	private boolean outputFasta;
 	private int minNumRepeats;
     private int minRepeatLength;
     private int maxRepeatLength;
@@ -18,11 +19,11 @@ public class CRISPRFinder
    	int sequenceLength = 0;
 
 
-	public CRISPRFinder(String _inputFileName, String _outputFileName, boolean _outputFasta, int _screenDisplay, int _minNumRepeats, int _minRepeatLength, int _maxRepeatLength, int _minSpacerLength, int _maxSpacerLength, int _searchWindowLength)
+	public CRISPRFinder(String _inputFileName, String _outputFileName, int _outputFasta, int _screenDisplay, int _minNumRepeats, int _minRepeatLength, int _maxRepeatLength, int _minSpacerLength, int _maxSpacerLength, int _searchWindowLength)
 	{
 		inputFileName = _inputFileName;
 		outputFileName = _outputFileName;
-		outputFasta = _outputFasta;
+		outputFasta = _outputFasta == 1;
 
 		screenDisplay = _screenDisplay;
 		minNumRepeats = _minNumRepeats;
