@@ -106,6 +106,8 @@ for option in dir(p):
 	if (option.startswith("CRT_")) and (value != None):
 		if (value == True):
 			CRT_options.append("-%s" % (option[4:]))
+		elif (value == False):
+			pass
 		else:
 			CRT_options.append("-%s %s" % (option[4:], value))
 
