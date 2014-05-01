@@ -28,7 +28,7 @@ g.add_option("--ignore-empty", dest = "ignore_empty", action = "store_true", def
 	help = """If set, the output file will not contain reports for sequences
 in which no CRISPR was found.""")
 
-g.add_option("-f", "--outputFasta", dest = "outputFasta", action = "store_true", default = False,
+g.add_option("-f", "--outputFasta", dest = "CRT_-outputFasta", action = "store_true", default = False,
 	help = """If set, the output file will be in FASTA format.""")
 
 p.add_option_group(g)
