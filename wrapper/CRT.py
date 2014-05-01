@@ -152,7 +152,7 @@ for record in read(input_file, input_format.lower()):
 		i_fn, o_fn
 	)
 
-	print cmd
+	# print cmd
 
 	try:
 		exit_code = subprocess.call(cmd, shell = True)
