@@ -141,7 +141,7 @@ writeLock = threading.Lock()
 countLock = threading.Lock()
 running_threads = 0
 
-class cmdThread (thread.Thread):
+class cmdThread (threading.Thread):
 	def __init__(self, threadID, name, i_fn, o_fn):
 		threading.Thread.__init__(self)
 		self.threadID = threadID
