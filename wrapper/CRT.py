@@ -78,7 +78,7 @@ p.add_option_group(g)
 
 g = optparse.OptionGroup(p, "Performance Options")
 
-p.add_option("-a","--threads", dest = "num_threads", type = "int", metavar = "INTEGER", default = 1,
+g.add_option("-a","--threads", dest = "num_threads", type = "int", metavar = "INTEGER", default = 1,
 	help = "Number of threads to execute at one time. (opt; def: %default)")
 
 p.add_option_group(g)
