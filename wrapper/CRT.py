@@ -10,7 +10,6 @@ import sys, os
 import tempfile
 import subprocess
 import threading
-import thread
 
 p = optparse.OptionParser(description = """CRT: wrapper for the command-line
 'CRISPR Recognition Tool' (Bland et al., BMC Bioinformatics 2007 8(1):209""")
@@ -216,9 +215,9 @@ for record in read(input_file, input_format.lower()):
 	# Create as many threads as wanted here
 	# Can use locks to ensure that we only create x threads
 
-	while(len(threads) >= num_threads):
+	while(running_threads >= num_threads):
 		pass
-	tid = len(threads) + 1
+	tid = running_threads + 1
 	new_thread = cmdThread(tid, "Thread" + str(tid), i_fn, o_fn)
 	new_thread.start()
 	countLock.acquire()
