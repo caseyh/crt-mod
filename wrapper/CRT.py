@@ -142,14 +142,24 @@ running_threads = 0
 num_threads = p.num_threads
 
 class cmdThread (threading.Thread):
-	def __init__(self, threadID, name, i_fn, o_fn):
+	def __init__(self, threadID, name, record):
 		threading.Thread.__init__(self)
 		self.threadID = threadID
 		self.name = name
-		self.i_fn = i_fn
-		self.o_fn = o_fn
+		self.record = record
 	def run(self):
 		global running_threads
+
+		# create a temporary file and write
+		# in it the sequence in FASTA format
+		i_fh, i_fn = tempfile.mkstemp(prefix = threadID, text = True)
+		i_fh = os.fdopen(i_fh, 'w')
+		o_fn = i_fn + ".out"
+
+		SeqIO.write([record], i_fh, "fasta")
+
+		i_fh.close()
+
 		# launch CRT on this temporary file
 		cmd = "%s -cp %s crt %s %s %s 1> /dev/null" % (
 			p.java_executable,
@@ -206,25 +216,17 @@ for record in read(input_file, input_format.lower()):
 	if(p.verbose):
 		print record.id
 
-	# create a temporary file and write
-	# in it the sequence in FASTA format
-	i_fh, i_fn = tempfile.mkstemp(text = True)
-	i_fh = os.fdopen(i_fh, 'w')
-	o_fn = i_fn + ".out"
-
-	SeqIO.write([record], i_fh, "fasta")
-
-	i_fh.close()
-
 	# Create as many threads as wanted here
 	# Can use locks to ensure that we only create x threads
-
 	while(running_threads >= num_threads):
 		pass
+	
 	tid = running_threads + 1
-	new_thread = cmdThread(tid, "Thread" + str(tid), i_fn, o_fn)
+	new_thread = cmdThread(tid, "Thread" + str(tid), record)
 	new_thread.start()
+	
 	threads.append(new_thread)
+
 	countLock.acquire()
 	running_threads = running_threads + 1
 	countLock.release()
