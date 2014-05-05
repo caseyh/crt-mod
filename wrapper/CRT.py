@@ -142,7 +142,6 @@ running_threads = 0
 num_threads = p.num_threads
 
 class cmdThread (threading.Thread):
-	global running_threads
 	def __init__(self, threadID, name, i_fn, o_fn):
 		threading.Thread.__init__(self)
 		self.threadID = threadID
@@ -150,6 +149,7 @@ class cmdThread (threading.Thread):
 		self.i_fn = i_fn
 		self.o_fn = o_fn
 	def run(self):
+		global running_threads
 		# launch CRT on this temporary file
 		cmd = "%s -cp %s crt %s %s %s 1> /dev/null" % (
 			p.java_executable,
@@ -225,7 +225,6 @@ for record in read(input_file, input_format.lower()):
 	countLock.acquire()
 	running_threads = running_threads + 1
 	countLock.release()
-
 
 for t in threads:
 	t.join()
