@@ -75,6 +75,13 @@ g.add_option("-p", "--verbose", dest = "verbose", action="store_true", default =
 
 p.add_option_group(g)
 
+g = optparse.OptionGroup(p, "Performance Options")
+
+p.add_option("-a","--threads", dest = "num_threads", type = "int", metavar = "INTEGER", default = 1,
+	help = "Number of threads to execute at one time. (opt; def: %default)")
+
+p.add_option_group(g)
+
 (p, a) = p.parse_args()
 
 def error (msg):
@@ -128,11 +135,71 @@ def read (file_handle, format):
 	for entry in parser:
 		yield entry
 
+writeLock = threading.Lock()
+countLock = threading.Lock()
+running_threads = 0
+
+class cmdThread (thread.Thread):
+	def __init__(self, threadID, name, i_fn, o_fn):
+		threading.Thread.__init__(self)
+		self.threadID = threadID
+		self.name = name
+		self.i_fn = i_fn
+		self.o_fn = o_fn
+	def run(self):
+		# launch CRT on this temporary file
+		cmd = "%s -cp %s crt %s %s %s 1> /dev/null" % (
+			p.java_executable,
+			p.java_CRT_jar,
+			' '.join(CRT_options),
+			i_fn, o_fn
+		)
+
+		# print cmd
+
+		try:
+			exit_code = subprocess.call(cmd, shell = True)
+
+			if (exit_code < 0):
+				error("The CRT child process was terminated by signal %s" % -exit_code)
+
+			elif (exit_code > 0):
+				error("The CRT child process returned signal %s" % exit_code)
+
+		except OSError as e:
+			error("CRT execution failed. Reason: %s" % str(e))
+
+		report = open(o_fn, 'r').readlines()
+
+		# delete the temporary files
+		os.remove(i_fn)
+		os.remove(o_fn)
+
+		# test if CRT reported at least one CRISPR
+		if (p.ignore_empty):
+			is_empty = False
+			for line in report:
+				if ("No CRISPR elements were found." in line):
+					is_empty = True
+					break
+
+			if (is_empty):
+				continue
+		writeLock.acquire()
+		# write the results in the master output file
+		for line in report:
+			p.output_fn.write(line)
+
+		p.output_fn.write('\n')
+		writeLock.release()
+		countLock.acquire()
+		running_threads = running_threads - 1
+		countLock.release()
+
 # for each sequence in the input file,
 for record in read(input_file, input_format.lower()):
 	if(p.verbose):
 		print record.id
-
 
 	# create a temporary file and write
 	# in it the sequence in FASTA format
@@ -144,47 +211,19 @@ for record in read(input_file, input_format.lower()):
 
 	i_fh.close()
 
-	# launch CRT on this temporary file
-	cmd = "%s -cp %s crt %s %s %s 1> /dev/null" % (
-		p.java_executable,
-		p.java_CRT_jar,
-		' '.join(CRT_options),
-		i_fn, o_fn
-	)
+	# Create as many threads as wanted here
+	# Can use locks to ensure that we only create x threads
 
-	# print cmd
+	while(len(threads) >= num_threads):
+		pass
+	tid = len(threads) + 1
+	new_thread = cmdThread(tid, "Thread" + str(tid), i_fn, o_fn)
+	new_thread.start()
+	countLock.acquire()
+	running_threads = running_threads + 1
+	countLock.release()
 
-	try:
-		exit_code = subprocess.call(cmd, shell = True)
 
-		if (exit_code < 0):
-			error("The CRT child process was terminated by signal %s" % -exit_code)
+for t in threads:
+	t.join()
 
-		elif (exit_code > 0):
-			error("The CRT child process returned signal %s" % exit_code)
-
-	except OSError as e:
-		error("CRT execution failed. Reason: %s" % str(e))
-
-	report = open(o_fn, 'r').readlines()
-
-	# delete the temporary files
-	os.remove(i_fn)
-	os.remove(o_fn)
-
-	# test if CRT reported at least one CRISPR
-	if (p.ignore_empty):
-		is_empty = False
-		for line in report:
-			if ("No CRISPR elements were found." in line):
-				is_empty = True
-				break
-
-		if (is_empty):
-			continue
-
-	# write the results in the master output file
-	for line in report:
-		p.output_fn.write(line)
-
-	p.output_fn.write('\n')
