@@ -152,7 +152,7 @@ class cmdThread (threading.Thread):
 
 		# create a temporary file and write
 		# in it the sequence in FASTA format
-		i_fh, i_fn = tempfile.mkstemp(prefix = self.threadID, text = True)
+		i_fh, i_fn = tempfile.mkstemp(prefix = str(self.threadID), text = True)
 		i_fh = os.fdopen(i_fh, 'w')
 		o_fn = i_fn + ".out"
 
