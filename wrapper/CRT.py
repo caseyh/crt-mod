@@ -152,11 +152,11 @@ class cmdThread (threading.Thread):
 
 		# create a temporary file and write
 		# in it the sequence in FASTA format
-		i_fh, i_fn = tempfile.mkstemp(prefix = threadID, text = True)
+		i_fh, i_fn = tempfile.mkstemp(prefix = self.threadID, text = True)
 		i_fh = os.fdopen(i_fh, 'w')
 		o_fn = i_fn + ".out"
 
-		SeqIO.write([record], i_fh, "fasta")
+		SeqIO.write([self.record], i_fh, "fasta")
 
 		i_fh.close()
 
@@ -195,16 +195,16 @@ class cmdThread (threading.Thread):
 				if ("No CRISPR elements were found." in line):
 					is_empty = True
 					break
-
 			if (is_empty):
 				pass
+
 		writeLock.acquire()
 		# write the results in the master output file
 		for line in report:
 			p.output_fn.write(line)
-
 		p.output_fn.write('\n')
 		writeLock.release()
+
 		countLock.acquire()
 		running_threads = running_threads - 1
 		countLock.release()
