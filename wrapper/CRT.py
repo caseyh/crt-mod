@@ -139,6 +139,7 @@ def read (file_handle, format):
 writeLock = threading.Lock()
 countLock = threading.Lock()
 running_threads = 0
+num_threads = p.num_threads
 
 class cmdThread (threading.Thread):
 	def __init__(self, threadID, name, i_fn, o_fn):
