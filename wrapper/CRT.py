@@ -142,6 +142,7 @@ running_threads = 0
 num_threads = p.num_threads
 
 class cmdThread (threading.Thread):
+	global running_threads
 	def __init__(self, threadID, name, i_fn, o_fn):
 		threading.Thread.__init__(self)
 		self.threadID = threadID
