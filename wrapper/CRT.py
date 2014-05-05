@@ -184,7 +184,7 @@ class cmdThread (thread.Thread):
 					break
 
 			if (is_empty):
-				continue
+				pass
 		writeLock.acquire()
 		# write the results in the master output file
 		for line in report:
