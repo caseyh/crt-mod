@@ -199,6 +199,8 @@ class cmdThread (threading.Thread):
 		running_threads = running_threads - 1
 		countLock.release()
 
+threads = []
+
 # for each sequence in the input file,
 for record in read(input_file, input_format.lower()):
 	if(p.verbose):
@@ -222,6 +224,7 @@ for record in read(input_file, input_format.lower()):
 	tid = running_threads + 1
 	new_thread = cmdThread(tid, "Thread" + str(tid), i_fn, o_fn)
 	new_thread.start()
+	threads.append(new_thread)
 	countLock.acquire()
 	running_threads = running_threads + 1
 	countLock.release()
