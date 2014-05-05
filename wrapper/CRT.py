@@ -10,6 +10,7 @@ import sys, os
 import tempfile
 import subprocess
 import threading
+import thread
 
 p = optparse.OptionParser(description = """CRT: wrapper for the command-line
 'CRISPR Recognition Tool' (Bland et al., BMC Bioinformatics 2007 8(1):209""")
