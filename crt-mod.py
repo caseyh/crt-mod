@@ -74,8 +74,8 @@ p.add_option("-v", "--version", dest = "display_version", action = "store_true",
 g.add_option("-p", "--verbose", dest = "verbose", action="store_true", default = False,
 	help = "Print each record id.")
 
-g.add_option("-s", "--status", dest = "status", action="store_true", default = False,
-	help = "Show approximate run progress. This is overridden by --verbose.")
+#g.add_option("-s", "--status", dest = "status", action="store_true", default = False,
+#	help = "Show approximate run progress. This is overridden by --verbose.")
 
 p.add_option_group(g)
 
