@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 
-__version_major__ = 1
+__version_major__ = 2
 __version_minor__ = 0
-__revision__ = 4
-__build__ = "315CDB1"
+__revision__ = 0
+__build__ = "NA"
 
 import optparse
 import sys, os
