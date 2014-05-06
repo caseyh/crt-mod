@@ -202,7 +202,7 @@ class cmdThread (threading.Thread):
 		# write the results in the master output file
 		for line in report:
 			p.output_fn.write(line)
-		p.output_fn.write('\n')
+		#p.output_fn.write('\n')
 		writeLock.release()
 
 		countLock.acquire()
