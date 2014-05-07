@@ -6,14 +6,15 @@
 import sys, os
 import re
 
-fn = "/home/cahancock/finalproj/runs/crt-results/ncbi_bacteria_genome/all_bacteria_tabular.blastn"
+fn = "/home/cahancock/finalproj/runs/crt-results/ncbi_bacteria_genome/all_bacteria.out"
 
 fh = open(fn, "r")
 
 found = set()
 
 for line in fh:
-	match = re.match(r"^(\S+)", line)
-	found.add(match.group(1))
+	match = re.match(r"^[>](\S+)", line)
+	if match:
+		found.add(match.group(1))
 
 print len(found)
