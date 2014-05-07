@@ -13,7 +13,7 @@ fh = open(fn, "r")
 found = set()
 
 for line in fh:
-	match = re.match(r"^(\S+)")
+	match = re.match(r"^(\S+)", line)
 	found.add(match.group(1))
 
 print len(found)
