@@ -6,7 +6,7 @@ Added features, thus far:
 
 - Output FASTA files
 - Run in multiple threads (can run MUCH faster than other versions)
-- Simplified distrobution - a working crt.jar file is included.
+- Simplified distribution - a working crt.jar file is included.
 
 ##Child of CRT Wrapper
 This is a command-line utility that goes a farther in terms of usability and performance than the original [CRT](https://github.com/ajmazurie/CRT) wrapper project.
@@ -17,7 +17,7 @@ While the original CRT tool only accepts as input a FASTA-formatted sequence wit
 
 ## Version
 
-The current version is 2.0rev1. This is dependant on THIS project, not any predecessor.
+The current version is 2.0rev1. This is dependent on THIS project, not any predecessor.
 
 ##Installation
 
